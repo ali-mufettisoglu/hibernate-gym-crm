@@ -35,7 +35,7 @@ public class GymCrmTest {
                 "20-01-1990",
                 "ocean street",
                 3L,
-                new Training("fitness","lifting","20-01-2026","45 m",1L)
+                new Training("fitness","lifting","20-01-2026","45",1L)
         );
     }
 
@@ -63,7 +63,7 @@ public class GymCrmTest {
                 "20-01-1990",
                 "ocean",
                 4L,
-                new Training("fitness","lifting","20-01-2026","45 m",1L)
+                new Training("fitness","lifting","20-01-2026","45",1L)
         );
 
         //ACT
@@ -111,7 +111,7 @@ public class GymCrmTest {
                 "20-01-1990",
                 "smith street",
                 3L,
-                new Training("fitness","lifting","20-01-2026","45 m",1L)
+                new Training("fitness","lifting","20-01-2026","45",1L)
 
         );
 
