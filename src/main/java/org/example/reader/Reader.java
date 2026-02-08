@@ -1,4 +1,4 @@
-package org.example.dao;
+package org.example.reader;
 
 import java.io.IOException;
 import java.nio.file.Files;

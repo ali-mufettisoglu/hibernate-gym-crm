@@ -1,9 +1,8 @@
-package org.example.dao;
+package org.example.reader;
 
 import org.example.domain.Trainer;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TrainerReader extends Reader {

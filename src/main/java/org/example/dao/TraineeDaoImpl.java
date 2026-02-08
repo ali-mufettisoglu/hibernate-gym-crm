@@ -3,6 +3,7 @@ package org.example.dao;
 import lombok.extern.slf4j.Slf4j;
 import org.example.domain.Trainee;
 import org.example.persistence.GymMap;
+import org.example.reader.TraineeReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

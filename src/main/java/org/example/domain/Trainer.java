@@ -10,6 +10,8 @@ import lombok.ToString;
 public class Trainer extends User {
     private String specialization;
     private Long userId;
+    private Training training;
+    private TrainingType trainingType;
 
     public Trainer(String firstName, String lastName, boolean isActive,String specialization, Long userId) {
         super(firstName, lastName, isActive);

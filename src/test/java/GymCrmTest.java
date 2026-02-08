@@ -1,6 +1,7 @@
 import org.example.SpringConfig;
 import org.example.dao.TraineeDaoImpl;
 import org.example.domain.Trainee;
+import org.example.domain.Training;
 import org.example.persistence.GymMap;;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +34,8 @@ public class GymCrmTest {
                 true,
                 "20-01-1990",
                 "ocean street",
-                3L
+                3L,
+                new Training("fitness","lifting","20-01-2026","45 m",1L)
         );
     }
 
@@ -60,7 +62,8 @@ public class GymCrmTest {
                 true,
                 "20-01-1990",
                 "ocean",
-                4L
+                4L,
+                new Training("fitness","lifting","20-01-2026","45 m",1L)
         );
 
         //ACT
@@ -107,7 +110,9 @@ public class GymCrmTest {
                 true,
                 "20-01-1990",
                 "smith street",
-                3L
+                3L,
+                new Training("fitness","lifting","20-01-2026","45 m",1L)
+
         );
 
         //ACT
