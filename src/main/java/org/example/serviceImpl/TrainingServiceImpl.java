@@ -1,28 +1,28 @@
-package org.example.service;
+package org.example.serviceImpl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.dao.TrainingDaoImpl;
-import org.example.domain.Trainee;
+import org.example.dao.TrainingDao;
 import org.example.domain.Training;
+import org.example.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-@Component
+@Service
 public class TrainingServiceImpl implements TrainingService {
 
     @Autowired
-    TrainingDaoImpl trainingDaoImpl;
+    private TrainingDao trainingDao;
 
     @Override
     public Training create(Training training) {
         log.info("create has been called");
-        return trainingDaoImpl.create(training);
+        return trainingDao.create(training);
     }
 
     @Override
     public Training select(Long id) {
         log.info("select ahs been called");
-        return trainingDaoImpl.select(id);
+        return trainingDao.select(id);
     }
 }

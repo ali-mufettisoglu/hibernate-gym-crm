@@ -1,14 +1,10 @@
 package org.example.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.util.UUID;
 
-@ToString
-@Getter
-@Setter
+@Data
 public class User {
     private String firstName;
     private String lastName;
@@ -20,7 +16,6 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
-        this.userName = firstName + "." + lastName;
         this.password = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
     }
 

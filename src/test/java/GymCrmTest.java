@@ -1,8 +1,9 @@
 import org.example.SpringConfig;
-import org.example.dao.TraineeDaoImpl;
+import org.example.daoImpl.TraineeDaoImpl;
 import org.example.domain.Trainee;
 import org.example.domain.Training;
 import org.example.persistence.GymMap;;
+import org.example.serviceImpl.filters.Duplicates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 public class GymCrmTest {
-
+    private Duplicates<Trainee> duplicates;
     private TraineeDaoImpl traineeDaoImpl;
     private GymMap gymMap;
 
@@ -26,6 +27,7 @@ public class GymCrmTest {
         try (ConfigurableApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfig.class)) {
             traineeDaoImpl = applicationContext.getBean(TraineeDaoImpl.class);
             gymMap = applicationContext.getBean(GymMap.class);
+            duplicates = applicationContext.getBean(Duplicates.class);
         }
 
         trainee = new Trainee(
@@ -67,7 +69,7 @@ public class GymCrmTest {
         );
 
         //ACT
-        Trainee duplicateTrainee = traineeDaoImpl.searchDuplicates(trainee2);
+        Trainee duplicateTrainee = duplicates.searchDuplicates(trainee2);
 
         //ASSERT
         assertEquals(trainee.getUserName() + "1", duplicateTrainee.getUserName());

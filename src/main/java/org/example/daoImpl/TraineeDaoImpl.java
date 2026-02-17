@@ -1,51 +1,39 @@
-package org.example.dao;
+package org.example.daoImpl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.dao.TraineeDao;
 import org.example.domain.Trainee;
+import org.example.domain.User;
 import org.example.persistence.GymMap;
-import org.example.reader.TraineeReader;
+import org.example.reader.UserReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Component
 public class TraineeDaoImpl implements TraineeDao {
     private GymMap gymMap;
 
-    @Value("${baseDirPath}")
+    @Value("${baseDirPath}/trainees.csv")
     private String baseDirPath;
 
     @PostConstruct
     public void postConstruct() throws Exception {
         log.info("postConstruct is working");
-        TraineeReader traineeReader = new TraineeReader();
-        List<Trainee> list = traineeReader.read(this.baseDirPath + "/trainees.csv");
-        list.forEach(this::create);
+        UserReader reader = new UserReader();
+        List<User> list = reader.read(this.baseDirPath);
+        list.forEach(e -> create((Trainee) e));
     }
 
     @Override
     public Trainee create(Trainee trainee) {
         log.info("create method is working");
-        return gymMap.getGymMapTrainee().put(searchDuplicates(trainee).getUserId(), trainee);
-    }
-
-    public Trainee searchDuplicates(Trainee trainee) {
-        int serialNumber = 0;
-        for (Map.Entry<Long, Trainee> entry : gymMap.getGymMapTrainee().entrySet()) {
-            String userName = entry.getValue().getFirstName() +"."+ entry.getValue().getLastName();
-            if (userName.equals(trainee.getUserName())) {
-                serialNumber++;
-            }
-        }
-        if(serialNumber != 0) {
-            trainee.setUserName(trainee.getUserName() + serialNumber);
-        }
-        return trainee;
+        System.out.println(trainee);
+        return gymMap.getGymMapTrainee().put(trainee.getUserId(), trainee);
     }
 
     @Override

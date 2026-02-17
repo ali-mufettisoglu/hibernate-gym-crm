@@ -1,39 +1,44 @@
-package org.example.service;
+package org.example.serviceImpl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.dao.TraineeDaoImpl;
+import org.example.dao.TraineeDao;
 import org.example.domain.Trainee;
+import org.example.service.TraineeService;
+import org.example.serviceImpl.filters.Duplicates;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-@Component
+@Service
 public class TraineeServiceImpl implements TraineeService {
 
     @Autowired
-    private TraineeDaoImpl traineeDaoImpl;
+    private TraineeDao traineeDao;
+
+    @Autowired
+    private Duplicates<Trainee> duplicates;
 
     @Override
     public Trainee create(Trainee trainee) {
         log.info("create has been called");
-        return traineeDaoImpl.create(trainee);
+        return traineeDao.create(duplicates.searchDuplicates(trainee));
     }
 
     @Override
     public Trainee update(Trainee trainee) {
         log.info("update has been called");
-        return traineeDaoImpl.update(trainee);
+        return traineeDao.update(trainee);
     }
 
     @Override
     public Trainee delete(Long id) {
         log.info("delete has been called");
-        return traineeDaoImpl.delete(id);
+        return traineeDao.delete(id);
     }
 
     @Override
     public Trainee select(Long id) {
         log.info("select has been called");
-        return traineeDaoImpl.select(id);
+        return traineeDao.select(id);
     }
 }

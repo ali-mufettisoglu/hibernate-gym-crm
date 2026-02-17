@@ -1,51 +1,39 @@
-package org.example.dao;
+package org.example.daoImpl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.dao.TrainerDao;
 import org.example.domain.Trainer;
+import org.example.domain.User;
 import org.example.persistence.GymMap;
-import org.example.reader.TrainerReader;
+import org.example.reader.UserReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Component
 public class TrainerDaoImpl implements TrainerDao {
     private GymMap gymMap;
 
-    @Value("${baseDirPath}")
+    @Value("${baseDirPath}/trainers.csv")
     private String baseDirPath;
 
     @PostConstruct
     public void postConstruct() throws Exception {
         log.info("postConstruct is working");
-        TrainerReader trainerReader = new TrainerReader();
-        List<Trainer> list = trainerReader.read(this.baseDirPath + "/trainers.csv");
-        list.forEach(this::create);
+        UserReader reader = new UserReader();
+        List<User> list = reader.read(this.baseDirPath);
+        list.forEach(i -> create((Trainer) i));
     }
 
     @Override
     public Trainer create(Trainer trainer) {
         log.info("create method is working");
-        return gymMap.getGymMapTrainer().put(searchDuplicates(trainer).getUserId(), trainer);
-    }
-
-    public Trainer searchDuplicates(Trainer trainer) {
-        int serialNumber = 0;
-        for (Map.Entry<Long, Trainer> entry : gymMap.getGymMapTrainer().entrySet()) {
-            String userName = entry.getValue().getFirstName() +"."+ entry.getValue().getLastName();
-            if (userName.equals(trainer.getUserName())) {
-                serialNumber++;
-            }
-        }
-        if(serialNumber != 0) {
-            trainer.setUserName(trainer.getUserName() + serialNumber);
-        }
-        return trainer;
+        System.out.println(trainer);
+        return gymMap.getGymMapTrainer().put(trainer.getUserId(), trainer);
     }
 
     @Override
