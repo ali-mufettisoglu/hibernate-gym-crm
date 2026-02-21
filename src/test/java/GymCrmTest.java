@@ -2,15 +2,17 @@ import org.example.SpringConfig;
 import org.example.daoImpl.TraineeDaoImpl;
 import org.example.domain.Trainee;
 import org.example.domain.Training;
-import org.example.persistence.GymMap;;
 import org.example.serviceImpl.filters.Duplicates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GymCrmTest {
     private Duplicates<Trainee> duplicates;
     private TraineeDaoImpl traineeDaoImpl;
-    private GymMap gymMap;
+
+    @Autowired
+    private Map<Long,Trainee> traineeMap;
 
     private Trainee trainee;
 
@@ -26,8 +30,8 @@ public class GymCrmTest {
     public void setup() {
         try (ConfigurableApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfig.class)) {
             traineeDaoImpl = applicationContext.getBean(TraineeDaoImpl.class);
-            gymMap = applicationContext.getBean(GymMap.class);
             duplicates = applicationContext.getBean(Duplicates.class);
+            traineeMap = (Map<Long, Trainee>) applicationContext.getBean("traineeMap");
         }
 
         trainee = new Trainee(
@@ -50,14 +54,14 @@ public class GymCrmTest {
         traineeDaoImpl.create(trainee);
 
         //ASSERT
-        assertEquals(gymMap.getGymMapTrainee().get(trainee.getUserId()), trainee, "Objects do not match");
+        assertEquals(traineeMap.get(trainee.getUserId()), trainee, "Objects do not match");
     }
 
     @Test
     @DisplayName("Search for Duplicates")
     public void testSearchForDuplicates() {
         //ARRANGE
-        gymMap.getGymMapTrainee().put(trainee.getUserId(), trainee);
+        traineeMap.put(trainee.getUserId(), trainee);
         Trainee trainee2 = new Trainee(
                 "Jane",
                 "Smith",
@@ -79,7 +83,7 @@ public class GymCrmTest {
     @DisplayName("Select Trainee")
     public void testSelectTrainee() {
         //ARRANGE
-        gymMap.getGymMapTrainee().put(trainee.getUserId(), trainee);
+        traineeMap.put(trainee.getUserId(), trainee);
 
         //ACT
         Trainee selectedTrainee = traineeDaoImpl.select(trainee.getUserId());
@@ -92,7 +96,7 @@ public class GymCrmTest {
     @DisplayName("Remove Trainee")
     public void testRemoveTrainee() {
         //ARRANGE
-        gymMap.getGymMapTrainee().put(trainee.getUserId(), trainee);
+        traineeMap.put(trainee.getUserId(), trainee);
 
         //ACT
         Trainee removedTrainee = traineeDaoImpl.delete(trainee.getUserId());
@@ -105,7 +109,7 @@ public class GymCrmTest {
     @DisplayName("Update Trainee")
     public void testUpdateTrainee() {
         //ARRANGE
-        gymMap.getGymMapTrainee().put(trainee.getUserId(), trainee);
+        traineeMap.put(trainee.getUserId(), trainee);
         Trainee trainee2 = new Trainee(
                 "Jane",
                 "Smith",
@@ -121,6 +125,6 @@ public class GymCrmTest {
         traineeDaoImpl.update(trainee2);
 
         //ASSERT
-        assertEquals(trainee2.getAddress(), gymMap.getGymMapTrainee().get(3L).getAddress());
+        assertEquals(trainee2.getAddress(), traineeMap.get(3L).getAddress());
     }
 }

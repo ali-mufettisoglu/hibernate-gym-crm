@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.dao.TrainerDao;
 import org.example.domain.Trainer;
 import org.example.domain.User;
-import org.example.persistence.GymMap;
 import org.example.reader.UserReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,11 +11,13 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
 public class TrainerDaoImpl implements TrainerDao {
-    private GymMap gymMap;
+
+    private Map<Long,Trainer> trainerMap;
 
     @Value("${baseDirPath}/trainers.csv")
     private String baseDirPath;
@@ -32,25 +33,24 @@ public class TrainerDaoImpl implements TrainerDao {
     @Override
     public Trainer create(Trainer trainer) {
         log.info("create method is working");
-        System.out.println(trainer);
-        return gymMap.getGymMapTrainer().put(trainer.getUserId(), trainer);
+        return trainerMap.put(trainer.getUserId(), trainer);
     }
 
     @Override
     public Trainer update(Trainer trainer) {
         log.info("update method is working");
-        return gymMap.getGymMapTrainer().put(trainer.getUserId(), trainer);
+        return trainerMap.put(trainer.getUserId(), trainer);
     }
 
     @Override
     public Trainer select(Long id) {
         log.info("select method is working");
-        return gymMap.getGymMapTrainer().get(id);
+        return trainerMap.get(id);
     }
 
     @Autowired
-    public void setGymMap(GymMap gymMap) {
+    public void setGymMap(Map<Long,Trainer> trainerMap) {
         log.info("setter injection has done");
-        this.gymMap = gymMap;
+        this.trainerMap = trainerMap;
     }
 }

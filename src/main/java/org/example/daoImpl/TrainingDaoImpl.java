@@ -3,7 +3,6 @@ package org.example.daoImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dao.TrainingDao;
 import org.example.domain.Training;
-import org.example.persistence.GymMap;
 import org.example.reader.TrainingReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,12 +10,14 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
 @Component
 public class TrainingDaoImpl implements TrainingDao {
-    private GymMap gymMap;
+
+    private Map<Long,Training> trainingMap;
 
     @Value("${baseDirPath}/trainings.csv")
     private String baseDirPath;
@@ -32,18 +33,18 @@ public class TrainingDaoImpl implements TrainingDao {
     @Override
     public Training create(Training training) {
         log.info("create method is working");
-        return gymMap.getGymMapTraining().put(training.getId(),training);
+        return trainingMap.put(training.getId(),training);
     }
 
     @Override
     public Training select(Long id) {
         log.info("select method is working");
-        return gymMap.getGymMapTraining().get(id);
+        return trainingMap.get(id);
     }
 
     @Autowired
-    public void setGymMap(GymMap gymMap) {
+    public void setGymMap(Map<Long,Training> trainingMap) {
         log.info("setter injection has done");
-        this.gymMap = gymMap;
+        this.trainingMap = trainingMap;
     }
 }
