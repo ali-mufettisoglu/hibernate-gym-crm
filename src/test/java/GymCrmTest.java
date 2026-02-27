@@ -1,8 +1,8 @@
 import org.example.SpringConfig;
-import org.example.daoImpl.TraineeDaoImpl;
+import org.example.dao.Impl.TraineeDaoImpl;
 import org.example.domain.Trainee;
 import org.example.domain.Training;
-import org.example.serviceImpl.filters.Duplicates;
+import org.example.service.Impl.filters.Duplicates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

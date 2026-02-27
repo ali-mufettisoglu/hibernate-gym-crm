@@ -1,4 +1,4 @@
-package org.example.serviceImpl;
+package org.example.service.Impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.dao.TrainingDao;

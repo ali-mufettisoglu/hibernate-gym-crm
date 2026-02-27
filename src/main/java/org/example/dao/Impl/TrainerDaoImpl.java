@@ -1,4 +1,4 @@
-package org.example.daoImpl;
+package org.example.dao.Impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.dao.TrainerDao;

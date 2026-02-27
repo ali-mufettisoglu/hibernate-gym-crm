@@ -1,4 +1,4 @@
-package org.example.serviceImpl.filters;
+package org.example.service.Impl.filters;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
