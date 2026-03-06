@@ -14,14 +14,6 @@ public class Trainee extends User {
     private Long userId;
     private Training training;
 
-    public Trainee(String firstName, String lastName, boolean isActive, String dateOfBirth, String address, Long userId) {
-        super(firstName, lastName, isActive);
-        this.userName = firstName + "." + lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.userId = userId;
-    }
-
     public Trainee(String firstName, String lastName, boolean isActive,String dateOfBirth, String address, Long userId, Training training) {
         super(firstName, lastName, isActive);
         this.userName = firstName + "." + lastName;

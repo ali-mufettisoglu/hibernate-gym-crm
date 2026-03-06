@@ -4,10 +4,13 @@ import org.example.domain.Trainee;
 import org.example.domain.Trainer;
 import org.example.domain.Training;
 import org.example.domain.User;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class UserReader extends Reader {
 
     public List<User> read(String pathOfFile) {

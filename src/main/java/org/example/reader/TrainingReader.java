@@ -1,13 +1,13 @@
 package org.example.reader;
 
 import org.example.domain.Training;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class TrainingReader extends Reader {
-
-    @Override
     public List<Training> read(String path) {
         var lines = readFromFile(path);
         return lines

@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class TrainingType {
-    String name;
-    Trainer trainer;
-    Training training;
+    private String name;
+    private Trainer trainer;
+    private Training training;
 
     public TrainingType(String name){
         this.name = name;

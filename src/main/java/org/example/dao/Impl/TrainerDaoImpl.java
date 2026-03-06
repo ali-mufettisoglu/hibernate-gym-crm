@@ -2,14 +2,17 @@ package org.example.dao.Impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.dao.TrainerDao;
+import org.example.domain.Trainee;
 import org.example.domain.Trainer;
 import org.example.domain.User;
 import org.example.reader.UserReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,15 +22,22 @@ public class TrainerDaoImpl implements TrainerDao {
 
     private Map<Long,Trainer> trainerMap;
 
-    @Value("${baseDirPath}/trainers.csv")
-    private String baseDirPath;
+    @Value("classpath:trainers.csv")
+    Resource resource;
+
+    @Autowired
+    UserReader userReader;
 
     @PostConstruct
-    public void postConstruct() throws Exception {
+    public void postConstruct() {
         log.info("postConstruct is working");
-        UserReader reader = new UserReader();
-        List<User> list = reader.read(this.baseDirPath);
-        list.forEach(i -> create((Trainer) i));
+        List<User> list;
+        try {
+            list = userReader.read(resource.getFile().getPath());
+        } catch (IOException e) {
+            throw new RuntimeException("trainees file upload error, "+e);
+        }
+        list.forEach(e -> create((Trainer) e));
     }
 
     @Override
